@@ -18,20 +18,25 @@ if (-not (Test-Path ".git")) {
 Write-Host "Configuring generic remote..."
 try {
     & $GitPath remote remove origin 2>$null
-} catch {}
+}
+catch {}
 & $GitPath remote add origin "https://github.com/cinedecoded5-design/simply-dice.git"
 
 # 4. Add config for authentication helper if needed (Windows)
 & $GitPath config credential.helper manager
 
 # 5. Add, Commit, Push
+Write-Host "Renaming branch to main..."
+& $GitPath branch -M main
+
 Write-Host "Adding files..."
 & $GitPath add .
 
 Write-Host "Committing..."
 try {
     & $GitPath commit -m "Force deploy repair"
-} catch {
+}
+catch {
     Write-Host "Nothing to commit, proceeding..." -ForegroundColor Yellow
 }
 
