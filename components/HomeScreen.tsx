@@ -13,7 +13,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
   const [showSettings, setShowSettings] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(!SoundManager.getMuted());
   const { currentTheme, setTheme, availableThemes } = useTheme();
-  
+
   // We read chances here for display, but App.tsx handles the actual gating logic
   const chances = getRemainingChances();
 
@@ -26,17 +26,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
   }, []);
 
   const handleToggleSound = () => {
-      const newState = !soundEnabled;
-      setSoundEnabled(newState);
-      
-      // Toggle both SFX and BGM
-      const isMuted = !newState;
-      SoundManager.setMuted(isMuted);
-      MusicManager.setMuted(isMuted);
-      
-      if (newState) {
-          SoundManager.playClick();
-      }
+    const newState = !soundEnabled;
+    setSoundEnabled(newState);
+
+    // Toggle both SFX and BGM
+    const isMuted = !newState;
+    SoundManager.setMuted(isMuted);
+    MusicManager.setMuted(isMuted);
+
+    if (newState) {
+      SoundManager.playClick();
+    }
   };
 
   const playClick = () => {
@@ -45,32 +45,29 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
 
   return (
     <div className="h-[100dvh] w-full flex flex-col items-center justify-between py-8 px-6 relative overflow-hidden font-chalk bg-slate-950">
-      
+
       {/* --- Premium Background Layer --- */}
       <div className="absolute inset-0 z-0">
-        {/* Base Gradient */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#1e293b] via-[#0f172a] to-black" />
-        
-        {/* Subtle Top Light */}
-        <div className="absolute top-0 left-0 right-0 h-[300px] bg-gradient-to-b from-slate-700/10 to-transparent pointer-events-none" />
-        
-        {/* Bottom Ambient Glow */}
-        <div className="absolute bottom-[-100px] left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-transparent to-transparent blur-3xl opacity-60 pointer-events-none" />
-
-        {/* Unified Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.05] pointer-events-none mix-blend-overlay" style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")` 
-        }} />
+        <img
+          src="/background_main_1768702512324.png"
+          className="w-full h-full object-cover opacity-60"
+          alt="Background"
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-900/80 via-transparent to-black/90" />
       </div>
 
       {/* --- Header Section --- */}
       <div className="relative z-10 flex flex-col items-center flex-1 justify-center w-full max-w-md animate-[slideDown_0.8s_cubic-bezier(0.2,0.8,0.2,1)]">
         <div className="relative group cursor-pointer active:scale-95 transition-transform" onClick={() => { setShowSettings(true); playClick(); }}>
           <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-          <BearLogo
-            className="w-48 h-48 md:w-60 md:h-60 relative z-10 transition-transform duration-300 group-hover:rotate-3 drop-shadow-xl"
-            interactive={true}
-          />
+          <div className="relative z-10 animate-float transition-transform duration-300 group-hover:rotate-1">
+            <img
+              src="/bear_mascot_home_1768702541523.png"
+              className="w-56 h-56 md:w-72 md:h-72 object-cover rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.6)] border border-white/10"
+              alt="Simply Dice Bear"
+            />
+            <div className="absolute inset-0 rounded-3xl ring-1 ring-white/20 inset-shadow-lg pointer-events-none" />
+          </div>
           <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black/60 border border-white/10 px-4 py-1.5 rounded-full opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 backdrop-blur-md shadow-lg">
             <span className="text-[10px] font-bold text-white uppercase tracking-widest">Settings</span>
           </div>
@@ -79,7 +76,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
         <h1 className="mt-10 font-sketch text-6xl md:text-7xl text-white tracking-widest text-center drop-shadow-2xl" style={{ filter: 'url(#chalk-noise)' }}>
           Simply <span className="text-[var(--primary)] relative inline-block">Dice
             <svg className="absolute -bottom-2 left-0 w-full h-3 text-[var(--primary)] opacity-60" viewBox="0 0 100 10" preserveAspectRatio="none">
-               <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
+              <path d="M0 5 Q 50 10 100 5" stroke="currentColor" strokeWidth="2" fill="none" />
             </svg>
           </span>
         </h1>
@@ -105,7 +102,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
         >
           <div className="absolute inset-0 border-2 border-[var(--primary)] rounded-2xl opacity-70 group-hover:opacity-100 transition-opacity duration-300" style={{ filter: 'url(#chalk-noise)', borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px' }}></div>
           <div className="absolute inset-0 bg-[var(--primary)] opacity-0 group-hover:opacity-10 transition-opacity duration-300 rounded-2xl" />
-          
+
           <div className="flex items-center justify-between px-8 h-full">
             <div className="flex flex-col items-start gap-1">
               <span className="text-3xl font-sketch text-[var(--primary)] group-hover:text-white transition-colors duration-300 drop-shadow-md">PLAY LOCAL</span>
@@ -130,7 +127,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
               <span className="text-3xl font-sketch text-[var(--secondary)] group-hover:text-white transition-colors duration-300 drop-shadow-md">PLAY SOLO</span>
               <span className="text-[10px] text-slate-400 font-bold tracking-[0.2em] uppercase group-hover:text-[var(--secondary)] transition-colors">Challenge CPU</span>
             </div>
-             <div className="w-12 h-12 border-2 border-[var(--secondary)] rounded-full flex items-center justify-center opacity-60 group-hover:opacity-100 group-hover:bg-[var(--secondary)] group-hover:text-black transition-all duration-300 shadow-md">
+            <div className="w-12 h-12 border-2 border-[var(--secondary)] rounded-full flex items-center justify-center opacity-60 group-hover:opacity-100 group-hover:bg-[var(--secondary)] group-hover:text-black transition-all duration-300 shadow-md">
               <span className="font-bold text-xs">AI</span>
             </div>
           </div>
@@ -143,7 +140,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
           <div className="absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300" onClick={() => { setShowSettings(false); playClick(); }} />
           <div className="relative w-full max-w-md bg-[#1e1e1e] border-t border-white/10 rounded-t-[40px] p-10 animate-[slideUp_0.4s_cubic-bezier(0.16,1,0.3,1)] shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
             <div className="absolute top-4 left-1/2 -translate-x-1/2 w-12 h-1.5 bg-white/10 rounded-full" />
-            
+
             <div className="flex items-center justify-between mb-10 mt-2">
               <h2 className="font-sketch text-4xl text-white">Chalk Box</h2>
               <button onClick={() => { setShowSettings(false); playClick(); }} className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-white/10 transition-colors">

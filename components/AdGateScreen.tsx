@@ -30,15 +30,15 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
   // --- NATIVE ADMOB LOGIC ---
   const loadNativeAd = async () => {
     const AdMob = window.AdMob || window.admob;
-    
+
     if (!AdMob) return false;
 
     try {
       // NOTE: Initialize should ideally be done in App.tsx at startup.
       // We proceed to request the ad.
-      
+
       console.log('Requesting Rewarded Ad:', ADMOB_CONFIG.rewardedAdUnitId);
-      
+
       // Syntax depends on plugin (admob-plus vs capacitor-community)
       // We try the common 'prepareRewardVideoAd' pattern.
       await AdMob.prepareRewardVideoAd({
@@ -82,7 +82,7 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         console.log('Native Reward Earned:', data);
         handleAdSuccess();
       };
-      
+
       // Listener for Ad Close
       const handleDismiss = () => {
         console.log('Ad Dismissed');
@@ -93,12 +93,12 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         setAdState((current) => {
           if (current !== 'COMPLETED') {
             logGameEvent('ad_dismissed_early');
-            return 'IDLE'; 
+            return 'IDLE';
           }
           return current;
         });
       };
-      
+
       // Listener for Ad Load
       const handleLoad = () => {
         console.log('Ad Loaded');
@@ -112,7 +112,7 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         'onRewardVideoAdLoad', 'admob.rewarded.load',
         'onRewardVideoAdDismiss', 'admob.rewarded.dismiss'
       ];
-      
+
       // Helper to attach
       document.addEventListener('onRewardVideoAdReward', handleReward);
       document.addEventListener('onRewardedVideoAdReward', handleReward);
@@ -128,10 +128,10 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         document.removeEventListener('onRewardVideoAdReward', handleReward);
         document.removeEventListener('onRewardedVideoAdReward', handleReward);
         document.removeEventListener('admob.rewarded.reward', handleReward);
-        
+
         document.removeEventListener('onRewardVideoAdLoad', handleLoad);
         document.removeEventListener('admob.rewarded.load', handleLoad);
-        
+
         document.removeEventListener('onRewardVideoAdDismiss', handleDismiss);
         document.removeEventListener('admob.rewarded.dismiss', handleDismiss);
       };
@@ -152,15 +152,15 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         setIsNative(true);
         // Timeout safeguard
         setTimeout(() => {
-            setAdState((curr) => {
-                if (curr === 'LOADING') {
-                    console.warn("Native ad timed out, falling back to web sim");
-                    logGameEvent('ad_timeout_fallback');
-                    startWebSimulation(); 
-                    return 'LOADING'; // Will be overridden by startWebSimulation state changes
-                }
-                return curr;
-            });
+          setAdState((curr) => {
+            if (curr === 'LOADING') {
+              console.warn("Native ad timed out, falling back to web sim");
+              logGameEvent('ad_timeout_fallback');
+              startWebSimulation();
+              return 'LOADING'; // Will be overridden by startWebSimulation state changes
+            }
+            return curr;
+          });
         }, 8000);
         return;
       }
@@ -191,13 +191,13 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
   // --- SIMULATION EFFECTS (Browser Only) ---
   useEffect(() => {
     let timer: ReturnType<typeof setInterval>;
-    
+
     // Only run countdown for Web Simulation
     if (adState === 'PLAYING' && !isNative) {
       if (videoRef.current) {
         videoRef.current.muted = true;
         videoRef.current.play().catch(e => {
-            console.warn("Autoplay prevented", e);
+          console.warn("Autoplay prevented", e);
         });
       }
 
@@ -220,9 +220,9 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
     // STRICT: Grant exactly 3 chances
     grantChances(3);
     setAdState('COMPLETED');
-    
+
     logGameEvent('ad_reward_claimed', { amount: 3 });
-    
+
     // Verification Hook (Backend Hook)
     if (auth.currentUser) {
       verifyAdRewardOnBackend(auth.currentUser.uid, 'video_ad', 3);
@@ -248,8 +248,8 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
     return (
       <div className="fixed inset-0 z-[60] bg-black flex items-center justify-center">
         <div className="text-white font-sans flex flex-col items-center gap-4">
-           <div className="w-10 h-10 border-4 border-white/20 border-t-[var(--primary)] rounded-full animate-spin"/>
-           <p>Showing Ad...</p>
+          <div className="w-10 h-10 border-4 border-white/20 border-t-[var(--primary)] rounded-full animate-spin" />
+          <p>Showing Ad...</p>
         </div>
       </div>
     );
@@ -260,37 +260,37 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
     return (
       <div className="fixed inset-0 z-[60] bg-black flex flex-col items-center justify-center font-sans">
         <div className="relative w-full max-w-4xl aspect-video bg-black border-y border-gray-800">
-           {/* Google Sample Video for Web Simulation */}
-           <video 
-             ref={videoRef}
-             src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
-             className="w-full h-full object-cover opacity-80"
-             autoPlay
-             loop
-             muted
-             playsInline
-             onError={(e) => console.error("Video failed to load", e)}
-           />
-           
-           <div className="absolute top-4 right-4 bg-black/60 backdrop-blur text-white px-4 py-2 rounded-full text-sm font-bold border border-white/10">
-             Reward in: {countdown}s
-           </div>
+          {/* Google Sample Video for Web Simulation */}
+          <video
+            ref={videoRef}
+            src="https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+            className="w-full h-full object-cover opacity-80"
+            autoPlay
+            loop
+            muted
+            playsInline
+            onError={(e) => console.error("Video failed to load", e)}
+          />
 
-           <div className="absolute bottom-4 left-4 flex flex-col items-start gap-1">
-             <div className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">
-               ADVERTISEMENT (SIMULATION)
-             </div>
-             <div className="text-[10px] text-white/50 font-mono">
-               ID: {ADMOB_CONFIG.rewardedAdUnitId.substring(0, 10)}...
-             </div>
-           </div>
+          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur text-white px-4 py-2 rounded-full text-sm font-bold border border-white/10">
+            Reward in: {countdown}s
+          </div>
 
-           <button 
-             onClick={handleSkip}
-             className="absolute top-4 left-4 text-white/70 hover:text-white text-sm underline"
-           >
-             Skip (Forfeit Reward)
-           </button>
+          <div className="absolute bottom-4 left-4 flex flex-col items-start gap-1">
+            <div className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded">
+              ADVERTISEMENT (SIMULATION)
+            </div>
+            <div className="text-[10px] text-white/50 font-mono">
+              ID: {ADMOB_CONFIG.rewardedAdUnitId.substring(0, 10)}...
+            </div>
+          </div>
+
+          <button
+            onClick={handleSkip}
+            className="absolute top-4 left-4 text-white/70 hover:text-white text-sm underline"
+          >
+            Skip (Forfeit Reward)
+          </button>
         </div>
       </div>
     );
@@ -298,9 +298,15 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
 
   // Interstitial Gate UI
   return (
-    <div className="fixed inset-0 z-[50] flex flex-col items-center justify-center bg-slate-950/95 backdrop-blur-md font-chalk text-slate-200 animate-[fadeIn_0.3s_ease-out]">
-      <div className="max-w-md w-full p-8 text-center relative">
-        
+    <div className="fixed inset-0 z-[50] flex flex-col items-center justify-center bg-slate-950 font-chalk text-slate-200 animate-[fadeIn_0.3s_ease-out] overflow-hidden">
+      {/* Background Layer */}
+      <div className="absolute inset-0 z-0">
+        <img src="/background_main_1768702512324.png" className="w-full h-full object-cover opacity-50" alt="BG" />
+        <div className="absolute inset-0 bg-slate-900/80 backdrop-blur-sm" />
+      </div>
+
+      <div className="max-w-md w-full p-8 text-center relative z-10">
+
         <div className="text-6xl mb-6 animate-float">
           📺
         </div>
@@ -319,21 +325,21 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
         ) : (
           <>
             <p className="text-lg text-slate-400 mb-8 leading-relaxed">
-              Watch one short video ad to unlock <br/>
+              Watch one short video ad to unlock <br />
               <span className="text-white font-bold border-b border-[var(--primary)]">3 game chances</span>.
             </p>
 
             {errorMsg && (
-               <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm">
-                 {errorMsg}
-               </div>
+              <div className="mb-6 p-3 bg-red-500/20 border border-red-500/50 rounded text-red-200 text-sm">
+                {errorMsg}
+              </div>
             )}
 
             {adState === 'LOADING' ? (
               <div className="flex flex-col items-center justify-center gap-4 py-4">
                 <div className="w-8 h-8 border-4 border-white/20 border-t-[var(--secondary)] rounded-full animate-spin"></div>
                 <span className="text-xs uppercase tracking-widest text-slate-500">
-                   {isNative ? 'Loading AdMob...' : 'Loading Ad...'}
+                  {isNative ? 'Loading AdMob...' : 'Loading Ad...'}
                 </span>
               </div>
             ) : (
@@ -344,7 +350,7 @@ const AdGateScreen: React.FC<AdGateScreenProps> = ({ onAdComplete }) => {
                 Watch Ad & Unlock
               </button>
             )}
-            
+
             <div className="mt-8 text-[10px] text-slate-700 font-sans opacity-50">
               Powered by Google AdMob
             </div>

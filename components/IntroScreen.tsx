@@ -37,27 +37,27 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
       `}
     >
       {/* --- Premium Background Layer --- */}
-      <div className="absolute inset-0 z-0 bg-slate-950">
-        {/* Deep Gradient Base */}
-        <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-[#0f172a] to-black opacity-90" />
-        
-        {/* Ambient Glow */}
-        <div className="absolute top-[-50%] left-[-50%] w-[200%] h-[200%] bg-[radial-gradient(circle_farthest-corner_at_center,_var(--tw-gradient-stops))] from-indigo-900/20 via-slate-900/0 to-transparent animate-[spin_45s_linear_infinite] opacity-60" />
-        
-        {/* Subtle Noise Texture */}
-        <div className="absolute inset-0 opacity-[0.06] mix-blend-overlay pointer-events-none" style={{ 
-          backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='1'/%3E%3C/svg%3E")` 
-        }} />
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/background_main_1768702512324.png"
+          className="w-full h-full object-cover opacity-80"
+          alt="Background"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
       </div>
 
       {/* Main Content */}
       <div className={`relative z-10 flex flex-col items-center transition-all duration-700 ${exiting ? 'translate-y-10' : 'translate-y-0'}`}>
-        
+
         {/* Mascot */}
-        <div className="relative mb-10 animate-pop-in">
-          <BearLogo className="w-56 h-56 relative z-10 animate-float drop-shadow-2xl" />
+        <div className="relative mb-10 animate-pop-in flex justify-center">
+          <img
+            src="/bear_mascot_intro_1768702526288.png"
+            alt="Fear the Bear"
+            className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full border-4 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative z-10 animate-float"
+          />
           {/* Subtle glow behind logo */}
-          <div className="absolute inset-0 bg-white/5 blur-3xl rounded-full scale-75 animate-pulse-glow z-0" />
+          <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-110 animate-pulse-glow z-0" />
         </div>
 
         {/* Text Container */}
