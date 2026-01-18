@@ -528,8 +528,8 @@ const BoardGame: React.FC<BoardGameProps> = ({ isAIMode = false, boardType, grid
     <div className="h-[100dvh] w-full flex flex-col relative overflow-hidden text-slate-200 font-chalk select-none bg-slate-950">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img src="/game_board_bg_1768702587843.png" className="w-full h-full object-cover" alt="Table" />
-        <div className="absolute inset-0 bg-black/40" /> {/* Darken slightly for contrast */}
+        <img src="/game_board_bg_v2.png" className="w-full h-full object-cover" alt="Table" />
+        <div className="absolute inset-0 bg-black/30" /> {/* Reduced overlay for gold visibility */}
       </div>
 
       {isWinner && <div className="absolute inset-0 bg-black/60 backdrop-blur-sm z-40 transition-all" />}
@@ -656,8 +656,8 @@ const BoardGame: React.FC<BoardGameProps> = ({ isAIMode = false, boardType, grid
           <div className="bg-[#1a1a1a]/90 backdrop-blur-md border-4 border-white/10 p-8 w-full max-w-sm relative text-center rounded-[30px] shadow-2xl flex flex-col items-center">
 
             <img
-              src={gameState.winner === 'A' ? "/bear_win_1768702556564.png" : (gameState.winner === 'Draw' ? "/bear_mascot_intro_1768702526288.png" : "/bear_lose_1768702573381.png")}
-              className="w-40 h-40 object-cover rounded-full border-4 border-white/20 shadow-lg mb-4 -mt-16 bg-slate-800"
+              src={gameState.winner === 'A' ? "/bear_win_v2.png" : (gameState.winner === 'Draw' ? "/bear_mascot_intro_v2.png" : "/bear_lose_v2.png")}
+              className="w-48 h-48 object-contain mb-4 -mt-20 drop-shadow-2xl"
               alt="Result Bear"
             />
 

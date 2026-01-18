@@ -52,9 +52,9 @@ const IntroScreen: React.FC<IntroScreenProps> = ({ onComplete }) => {
         {/* Mascot */}
         <div className="relative mb-10 animate-pop-in flex justify-center">
           <img
-            src="/bear_mascot_intro_1768702526288.png"
-            alt="Fear the Bear"
-            className="w-64 h-64 md:w-80 md:h-80 object-cover rounded-full border-4 border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.8)] relative z-10 animate-float"
+            src="/bear_mascot_intro_v2.png"
+            alt="Cool Bear"
+            className="w-64 h-64 md:w-80 md:h-80 object-contain relative z-10 animate-float filter drop-shadow-[0_0_30px_rgba(168,85,247,0.4)]"
           />
           {/* Subtle glow behind logo */}
           <div className="absolute inset-0 bg-blue-500/20 blur-3xl rounded-full scale-110 animate-pulse-glow z-0" />

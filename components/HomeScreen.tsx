@@ -62,8 +62,8 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ onStartGame }) => {
           <div className="absolute inset-0 bg-white/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
           <div className="relative z-10 animate-float transition-transform duration-300 group-hover:rotate-1">
             <img
-              src="/bear_mascot_home_1768702541523.png"
-              className="w-56 h-56 md:w-72 md:h-72 object-cover rounded-3xl shadow-[0_0_30px_rgba(0,0,0,0.6)] border border-white/10"
+              src="/bear_mascot_home_v2.png"
+              className="w-64 h-64 md:w-80 md:h-80 object-contain drop-shadow-2xl transition-transform duration-300 group-hover:scale-105"
               alt="Simply Dice Bear"
             />
             <div className="absolute inset-0 rounded-3xl ring-1 ring-white/20 inset-shadow-lg pointer-events-none" />
